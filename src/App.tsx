@@ -113,72 +113,19 @@ function App() {
 
         <div className="cart--item-list-container">
           <ul className="item-list cart--item-list">
+            {cartItems.map((item) => (
             <li>
               <img
                 className="cart--item-icon"
-                src="assets/icons/001-beetroot.svg"
-                alt="beetroot"
+                src={getItemImage(item)}
+                alt={item.name}
               />
-              <p>beetroot</p>
+              <p>{item.name}</p>
               <button className="quantity-btn remove-btn center">-</button>
-              <span className="quantity-text center">3</span>
+              <span className="quantity-text center">{item.inCart}</span>
               <button className="quantity-btn add-btn center">+</button>
             </li>
-            <li>
-              <img
-                className="cart--item-icon"
-                src="assets/icons/002-carrot.svg"
-                alt="carrot"
-              />
-              <p>carrot</p>
-              <button className="quantity-btn remove-btn center">-</button>
-              <span className="quantity-text center">5</span>
-              <button className="quantity-btn add-btn center">+</button>
-            </li>
-            <li>
-              <img
-                className="cart--item-icon"
-                src="assets/icons/003-apple.svg"
-                alt="apple"
-              />
-              <p>apple</p>
-              <button className="quantity-btn remove-btn center">-</button>
-              <span className="quantity-text center">1</span>
-              <button className="quantity-btn add-btn center">+</button>
-            </li>
-            <li>
-              <img
-                className="cart--item-icon"
-                src="assets/icons/005-avocado.svg"
-                alt="avocado"
-              />
-              <p>avocado</p>
-              <button className="quantity-btn remove-btn center">-</button>
-              <span className="quantity-text center">1</span>
-              <button className="quantity-btn add-btn center">+</button>
-            </li>
-            <li>
-              <img
-                className="cart--item-icon"
-                src="assets/icons/007-bell-pepper.svg"
-                alt="bell-pepper"
-              />
-              <p>bell-pepper</p>
-              <button className="quantity-btn remove-btn center">-</button>
-              <span className="quantity-text center">3</span>
-              <button className="quantity-btn add-btn center">+</button>
-            </li>
-            <li>
-              <img
-                className="cart--item-icon"
-                src="assets/icons/010-eggplant.svg"
-                alt="eggplant"
-              />
-              <p>eggplant</p>
-              <button className="quantity-btn remove-btn center">-</button>
-              <span className="quantity-text center">2</span>
-              <button className="quantity-btn add-btn center">+</button>
-            </li>
+          ))}
           </ul>
         </div>
 
@@ -188,7 +135,9 @@ function App() {
           </div>
 
           <div>
-            <span className="total-number">£0.00</span>
+            <span className="total-number">
+              {}
+            </span>
           </div>
         </div>
       </main>
