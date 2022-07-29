@@ -1,74 +1,110 @@
 import { useState } from "react";
+
 import "./App.css";
 
+
 function App() {
+
+  const [store, setStore] = useState([
+    {
+      id: 1,
+      name: "beetroot",
+      price: 0.45,
+      stock: 8,
+      inCart: 3,
+    },
+    {
+      id: 2,
+      name: "carrot",
+      price: 0.15,
+      stock: 5,
+      inCart: 5,
+    },
+    {
+      id: 3,
+      name: "apple",
+      price: 0.25,
+      stock: 3,
+      inCart: 1,
+    },
+    {
+      id: 4,
+      name: "apricot",
+      price: 0.35,
+      stock: 4,
+      inCart: 0,
+    },
+    {
+      id: 5,
+      name: "avocado",
+      price: 0.14,
+      stock: 9,
+      inCart: 1,
+    },
+    {
+      id: 6,
+      name: "bananas",
+      price: 0.23,
+      stock: 1,
+      inCart: 0,
+    },
+    {
+      id: 7,
+      name: "bell-pepper",
+      price: 0.17,
+      stock: 7,
+      inCart: 3,
+    },
+    {
+      id: 8,
+      name: "berry",
+      price: 0.1,
+      stock: 6,
+      inCart: 0,
+    },
+    {
+      id: 9,
+      name: "blueberry",
+      price: 0.25,
+      stock: 12,
+      inCart: 0,
+    },
+    {
+      id: 10,
+      name: "eggplant",
+      price: 0.12,
+      stock: 1,
+      inCart: 2,
+    },
+  ]);
+
   const [count, setCount] = useState(0);
+
+  function getItemImage(item: any)  {
+    let id = String(item.id).padStart(3, '0')
+    return `assets/icons/${id}-${item.name}.svg`
+  }
+
+
+  function getCartItems() {
+    return store.filter((item) => item.inCart > 0);
+  }
+
+  const cartItems = getCartItems();
 
   return (
     <div className="App">
       <header id="store">
         <h1>Grocero</h1>
         <ul className="item-list store--item-list">
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/001-beetroot.svg" />
-            </div>
-            <button>Add to cart (8)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/002-carrot.svg" />
-            </div>
-            <button>Add to cart (5)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/003-apple.svg" />
-            </div>
-            <button>Add to cart (3)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/004-apricot.svg" />
-            </div>
-            <button>Add to cart (4)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/005-avocado.svg" />
-            </div>
-            <button>Add to cart (9)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/006-bananas.svg" />
-            </div>
-            <button>Add to cart (1)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/007-bell-pepper.svg" />
-            </div>
-            <button>Add to cart (7)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/008-berry.svg" />
-            </div>
-            <button>Add to cart (6)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/009-blueberry.svg" />
-            </div>
-            <button>Add to cart (12)</button>
-          </li>
-          <li>
-            <div className=".store--item-icon">
-              <img src="assets/icons/010-eggplant.svg" />
-            </div>
-            <button>Add to cart (1)</button>
-          </li>
+          {store.map((item) => (
+            <li>
+              <div className=".store--item-icon">
+                <img src={getItemImage(item)} />
+              </div>
+              <button>Add to cart ({item.stock})</button>
+            </li>
+          ))}
         </ul>
       </header>
 
@@ -161,3 +197,6 @@ function App() {
 }
 
 export default App;
+function getItemImage(): string | undefined {
+  throw new Error("Function not implemented.");
+}
