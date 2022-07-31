@@ -1,10 +1,25 @@
 import { useState } from "react";
 
 import "./App.css";
+import { Store } from "./components/Store";
+import { Cart } from "./components/Cart";
 
+export function getItemImage(item: any) {
+  let id = String(item.id).padStart(3, "0");
+  return `assets/icons/${id}-${item.name}.svg`;
+}
+
+export type StoreItemType = {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
+  inCart: number;
+}
+
+export type StoreType = StoreItemType[]
 
 function App() {
-
   const [store, setStore] = useState([
     {
       id: 1,
@@ -80,11 +95,6 @@ function App() {
 
   const [count, setCount] = useState(0);
 
-  function getItemImage(item: any)  {
-    let id = String(item.id).padStart(3, '0')
-    return `assets/icons/${id}-${item.name}.svg`
-  }
-
 
   function getCartItems() {
     return store.filter((item) => item.inCart > 0);
@@ -92,60 +102,55 @@ function App() {
 
   const cartItems = getCartItems();
 
+  function getTotalPrice() {
+    let total = 0;
+
+    for (let item of cartItems) {
+      total += item.price * item.inCart;
+    }
+    return total;
+  }
+
+  function increaseQuantity(item: any) {
+    //funksion qe ndryshon te dhenat ne store
+    // 1- krijojme nje kopje te re te te dhenave
+    // 2- modifikojme te dhenat tek kopja e krijuar
+    // 3- update state
+
+    if (item.stock <= 0) return;
+    let newStore = [...store];
+    let index = newStore.indexOf(item);
+    newStore[index].inCart++;
+    setStore(newStore);
+
+    item.stock--;
+  }
+
+  function decreaseQuantity(item: any) {
+    let newStore = [...store];
+    let index = newStore.indexOf(item);
+    newStore[index].inCart--;
+    setStore(newStore);
+
+    item.stock++;
+  }
+
   return (
     <div className="App">
-      <header id="store">
-        <h1>Grocero</h1>
-        <ul className="item-list store--item-list">
-          {store.map((item) => (
-            <li>
-              <div className=".store--item-icon">
-                <img src={getItemImage(item)} />
-              </div>
-              <button>Add to cart ({item.stock})</button>
-            </li>
-          ))}
-        </ul>
-      </header>
+   
+      <Store 
+      store = {store}
+      increaseQuantity = {increaseQuantity} />
 
-      <main id="cart">
-        <h2>Your Cart</h2>
-
-        <div className="cart--item-list-container">
-          <ul className="item-list cart--item-list">
-            {cartItems.map((item) => (
-            <li>
-              <img
-                className="cart--item-icon"
-                src={getItemImage(item)}
-                alt={item.name}
-              />
-              <p>{item.name}</p>
-              <button className="quantity-btn remove-btn center">-</button>
-              <span className="quantity-text center">{item.inCart}</span>
-              <button className="quantity-btn add-btn center">+</button>
-            </li>
-          ))}
-          </ul>
-        </div>
-
-        <div className="total-section">
-          <div>
-            <h3>Total</h3>
-          </div>
-
-          <div>
-            <span className="total-number">
-              {}
-            </span>
-          </div>
-        </div>
-      </main>
+      <Cart
+      cartItems = {cartItems}
+      totalPrice = {getTotalPrice()}
+      increaseQuantity = {increaseQuantity}
+      decreaseQuantity = {decreaseQuantity}
+      getTotalPrice = {getTotalPrice} />
     </div>
   );
 }
 
 export default App;
-function getItemImage(): string | undefined {
-  throw new Error("Function not implemented.");
-}
+
